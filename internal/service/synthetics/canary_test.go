@@ -963,6 +963,9 @@ resource "aws_synthetics_canary" "test" {
 }
 
 resource "aws_s3_bucket_object" "test" {
+  # Must have bucket versioning enabled first
+  depends_on = [aws_s3_bucket_versioning.test]
+
   bucket = aws_s3_bucket.test.bucket
   key    = %[1]q
   source = "test-fixtures/lambdatest.zip"
