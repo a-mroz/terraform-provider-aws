@@ -1129,7 +1129,13 @@ resource "aws_s3_bucket_versioning" "destination3" {
 }
 
 resource "aws_s3_bucket_replication_configuration" "test" {
-  depends_on = [aws_s3_bucket_versioning.source]
+  # Must have bucket versioning enabled first
+  depends_on = [
+    aws_s3_bucket_versioning.source,
+    aws_s3_bucket_versioning.destination,
+    aws_s3_bucket_versioning.destination2,
+    aws_s3_bucket_versioning.destination3
+  ]
 
   bucket = aws_s3_bucket.source.id
   role   = aws_iam_role.test.arn
