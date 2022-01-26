@@ -68,6 +68,9 @@ resource "aws_s3_bucket" "destination" {
 }
 
 resource "aws_s3_bucket_object" "source" {
+  # Must have bucket versioning enabled first
+  depends_on = [aws_s3_bucket_versioning.source]
+
   bucket = aws_s3_bucket.source.bucket
   key    = "lambdatest.zip"
   source = "test-fixtures/lambdatest.zip"
