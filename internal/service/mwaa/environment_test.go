@@ -802,6 +802,9 @@ resource "aws_mwaa_environment" "test" {
 }
 
 resource "aws_s3_bucket_object" "plugins" {
+  # Must have bucket versioning enabled first
+  depends_on = [aws_s3_bucket_versioning.test]
+
   bucket  = aws_s3_bucket.test.id
   acl     = "private"
   key     = "plugins.zip"
